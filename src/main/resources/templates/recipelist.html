@@ -1,0 +1,40 @@
+<! DOCTYPE HTML>
+<html xmlns:th="http://www.thymeLeaf.org">
+<head>
+<title>List of Recipies</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div class="container">
+	<div class="col-md-4">
+		<h1>Recipies</h1>
+	</div>
+	<div class="col-md-4">
+		<h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]</h3>
+	</div>
+	<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out"/>
+		</form>
+	</div>
+	<table class="table table-striped">
+		<tr>
+			<th>Name</th>
+			<th>Original source</th>
+			<th>Description</th>
+
+		</tr>
+		<tr th:each="recipe : ${recipies}">
+			<td th:text="${recipe.name}">Recipe</td>
+			<td th:text="${recipe.url}">Source</td>
+			<td th:text="${recipe.description}">Description</td>
+
+			<td sec:authorize="hasRole('ADMIN')">
+			<a th:href="@{/delete/{id}(id=${recipe.id})}">Delete</a></td>
+			<td><a th:href="@{/edit/{id}(id=${recipe.id})}">Edit</a></td>
+		</tr>
+	</table>
+	<a href="/add" class="btn btn-primary">Add recipe</a>
+</div>
+</body>
+</html>
